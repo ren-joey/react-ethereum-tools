@@ -3,6 +3,8 @@
         "browserslist",
         "stylelint",
         "camelcase",
-        "linebreak"
+        "linebreak",
+        "walletconnect",
+        "fontsource"
     ]
 }

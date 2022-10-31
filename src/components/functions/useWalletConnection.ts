@@ -1,5 +1,5 @@
 import WalletConnectProvider from '@walletconnect/web3-provider';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Web3 from 'web3';
 
 window.localStorage.removeItem('walletconnect');

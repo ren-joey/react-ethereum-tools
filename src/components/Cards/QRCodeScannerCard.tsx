@@ -1,6 +1,4 @@
 import { Button, TextField, Typography } from '@mui/material';
-import { Html5QrcodeScanner, Html5QrcodeScanType } from 'html5-qrcode';
-import { Html5QrcodeResult } from 'html5-qrcode/esm/core';
 import { useEffect, useRef, useState } from 'react';
 import { QrReader } from 'react-qr-reader';
 import QRCodeReader from '../QRCodeReader/QRCodeReader';

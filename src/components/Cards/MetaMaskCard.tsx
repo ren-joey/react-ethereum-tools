@@ -4,8 +4,14 @@ import { useEffect, useReducer, useState } from 'react';
 import sendSignatureRequest from '../functions/sendSignatureRequest';
 import useMetaMask from '../functions/useMetaMask';
 import CardTemplate from '../Shared/CardTemplate';
-import abi from '../../assets/abi/vbc_betamon_abi.json';
+import abi from '../../assets/abi/dark_betamon_abi.json';
 import useContract from '../functions/useContract';
+
+interface ContractCallParam {
+    method: string;
+    param?: any[];
+    callback: (res: any) => void;
+}
 
 const MetaMaskCard = () => {
     const {
@@ -37,19 +43,87 @@ const MetaMaskCard = () => {
         }
     };
 
-    const call = () => {
+    const contractCall = ({
+        method,
+        param = [],
+        callback
+    }: ContractCallParam) => {
         if (contract) {
-            contract.methods.balanceOf(accounts[0]).call().then((res: any) => {
-                console.log(res);
-            });
+            console.log(param);
+            if (typeof contract.methods[method] === 'function') {
+                contract.methods[method].apply(this, param).call().then(callback);
+            }
         }
+    };
+
+    const contractSend = ({
+        method,
+        param = [],
+        callback
+    }: ContractCallParam) => {
+        if (contract) {
+            console.log(param);
+            if (typeof contract.methods[method] === 'function') {
+                contract.methods[method].apply(this, param).send({
+                    from: accounts[0]
+                }).then(callback);
+            }
+        }
+    };
+
+    const balanceOf = () => {
+        contractCall({
+            method: 'balanceOf',
+            param: [accounts[0]],
+            callback: (res) => {
+                console.log(res);
+            }
+        });
+    };
+
+    const preserveMint = () => {
+        contractSend({
+            method: 'preserveMint',
+            param: [1],
+            callback: (res) => {
+                console.log(res);
+            }
+        });
+    };
+
+    const owner = () => {
+        contractCall({
+            method: 'owner',
+            callback: (res) => {
+                console.log(res);
+            }
+        });
+    };
+
+    const tokenURI = () => {
+        contractCall({
+            method: 'tokenURI',
+            param: [0],
+            callback: (res) => {
+                console.log(res);
+            }
+        });
+    };
+
+    const isBlindBoxOpened = () => {
+        contractCall({
+            method: 'isBlindBoxOpened',
+            callback: (res) => {
+                console.log(res);
+            }
+        });
     };
 
     useEffect(() => {
         if (web3 && !contract) {
             resetContract({
                 abi,
-                address: '0x61d65e992563c588B435D678AE56d759A8FB9372',
+                address: '0x8CEEc3EB66Cc390B6c49a2B7c03a651A82C73af0',
                 web3
             });
         }
@@ -151,14 +225,48 @@ const MetaMaskCard = () => {
 
                                     {
                                         contract && (
-                                            <Button
-                                                style={{ marginLeft: '1rem' }}
-                                                variant="contained"
-                                                disabled={!web3}
-                                                onClick={() => call()}
-                                            >
-                                                Contract Call
-                                            </Button>
+                                            <>
+                                                <Button
+                                                    style={{ marginLeft: '1rem' }}
+                                                    variant="contained"
+                                                    disabled={!web3}
+                                                    onClick={() => balanceOf()}
+                                                >
+                                                    Balance Of
+                                                </Button>
+                                                <Button
+                                                    style={{ marginLeft: '1rem' }}
+                                                    variant="contained"
+                                                    disabled={!web3}
+                                                    onClick={() => preserveMint()}
+                                                >
+                                                    Preserve Mint
+                                                </Button>
+                                                <Button
+                                                    style={{ marginLeft: '1rem' }}
+                                                    variant="contained"
+                                                    disabled={!web3}
+                                                    onClick={() => owner()}
+                                                >
+                                                    Owner
+                                                </Button>
+                                                <Button
+                                                    style={{ marginLeft: '1rem' }}
+                                                    variant="contained"
+                                                    disabled={!web3}
+                                                    onClick={() => tokenURI()}
+                                                >
+                                                    token URI
+                                                </Button>
+                                                <Button
+                                                    style={{ marginLeft: '1rem' }}
+                                                    variant="contained"
+                                                    disabled={!web3}
+                                                    onClick={() => isBlindBoxOpened()}
+                                                >
+                                                    Blind Box
+                                                </Button>
+                                            </>
                                         )
                                     }
                                 </div>

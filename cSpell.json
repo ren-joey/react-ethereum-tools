@@ -5,6 +5,7 @@
         "camelcase",
         "linebreak",
         "walletconnect",
-        "fontsource"
+        "fontsource",
+        "qrcode"
     ]
 }

@@ -3,7 +3,6 @@
 import Grid from '@mui/material/Unstable_Grid2';
 import { useState } from 'react';
 import Web3 from 'web3';
-import ContractCard from '../Cards/ContractCard';
 import MetaMaskCard from '../Cards/MetaMaskCard';
 import QRCodeScannerCard from '../Cards/QRCodeScannerCard';
 import WalletConnectCard from '../Cards/WalletConnectCard';
@@ -55,16 +54,6 @@ const Container = () => {
                         <QRCodeScannerCard />
                     }
                 />
-
-                {/* {
-                    web3 && (
-                        <PackedGrid
-                            Content={
-                                <ContractCard  web3={web3} />
-                            }
-                        />
-                    )
-                } */}
             </Grid>
         </div>
     );

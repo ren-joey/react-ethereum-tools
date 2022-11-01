@@ -1,8 +1,9 @@
-import { Button, Chip, Typography } from '@mui/material';
+import { Button, Chip, Divider, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import sendSignatureRequest from '../functions/sendSignatureRequest';
 import useWalletconnect from '../functions/useWalletConnection';
 import CardTemplate from '../Shared/CardTemplate';
+import ContractActions from './ContractActions';
 
 const WalletConnectCard = () => {
     const {
@@ -92,14 +93,13 @@ const WalletConnectCard = () => {
 
                     {
                         web3 && (
-                            <div style={{ marginTop: '0.6rem' }}>
-                                <Button
-                                    variant="contained"
-                                    onClick={() => sign()}
-                                >
-                                    Sign
-                                </Button>
-                            </div>
+                            <>
+                                <Divider style={{ margin: '0.6rem 0' }} />
+                                <ContractActions
+                                    web3={web3}
+                                    accounts={accounts}
+                                />
+                            </>
                         )
                     }
                 </>

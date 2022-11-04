@@ -13,6 +13,7 @@ let provider: (WalletConnectProvider|null) = null;
 const useWalletconnect = () => {
     const [web3, setWeb3] = useState<null|Web3>(null);
     const [accounts, setAccounts] = useState<any[]>([]);
+    const [chainId, setChainId] = useState<null|number>(null);
 
     const enable = () => {
         provider = new WalletConnectProvider(walletConnectOptions);
@@ -27,6 +28,12 @@ const useWalletconnect = () => {
                         setAccounts(accounts);
                     });
 
+                    newWeb3.eth.net.getId().then((res) => {
+                        if (typeof res === 'number') {
+                            setChainId(res);
+                        }
+                    });
+
                     bindListeners(provider);
                 }
             });
@@ -39,6 +46,7 @@ const useWalletconnect = () => {
                 window.localStorage.removeItem('walletconnect');
                 setWeb3(null);
                 setAccounts([]);
+                setChainId(null);
                 if (provider) {
                     clearListeners(provider);
                     provider = null;
@@ -58,11 +66,12 @@ const useWalletconnect = () => {
     };
 
     return {
-        provider,
         web3,
-        accounts,
         enable,
-        disable
+        disable,
+        provider,
+        accounts,
+        chainId
     };
 };
 

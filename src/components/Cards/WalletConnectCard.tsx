@@ -10,6 +10,7 @@ const WalletConnectCard = () => {
         web3,
         enable,
         disable,
+        chainId,
         accounts
     } = useWalletconnect();
 
@@ -92,15 +93,19 @@ const WalletConnectCard = () => {
                     </div>
 
                     {
-                        web3 && (
-                            <>
-                                <Divider style={{ margin: '0.6rem 0' }} />
-                                <ContractActions
-                                    web3={web3}
-                                    accounts={accounts}
-                                />
-                            </>
-                        )
+                        chainId === 5 && web3 ? (
+                            web3 && (
+                                <>
+                                    <Divider style={{ margin: '0.6rem 0' }} />
+                                    <ContractActions
+                                        web3={web3}
+                                        accounts={accounts}
+                                    />
+                                </>
+                            )
+                        ) : chainId !== null
+                            ? <Typography variant="caption">請使用 Goerli 測試網路</Typography>
+                            : null
                     }
                 </>
             }

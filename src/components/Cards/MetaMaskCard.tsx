@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Button, Chip, Divider, Typography } from '@mui/material';
+import { useEffect } from 'react';
 import useMetaMask from '../functions/useMetaMask';
 import CardTemplate from '../Shared/CardTemplate';
 import ContractActions from './ContractActions';
@@ -9,6 +10,7 @@ const MetaMaskCard = () => {
         isMetaMaskInstalled,
         web3,
         accounts,
+        chainId,
         enable,
         disable
     } = useMetaMask();
@@ -54,55 +56,65 @@ const MetaMaskCard = () => {
                         }
                     </div>
 
-                    <br />
-
-                    <div>
-                        Connection Status: {
-                            !web3 ? (
-                                <Chip
-                                    label="DISABLED"
-                                    color="default"
-                                    size="small"
-                                />
-                            ) : (
-                                <Chip
-                                    label="ENABLE"
-                                    color="primary"
-                                    size="small"
-                                />
-                            )
-                        }
-                    </div>
-
-                    <br />
-
-                    <div>
-                        <Button
-                            variant="contained"
-                            onClick={() => enable()}
-                            disabled={Boolean(web3)}
-                        >
-                            Connect
-                        </Button>
-                        <Button
-                            style={{ marginLeft: '1rem' }}
-                            variant="outlined"
-                            color="warning"
-                            disabled={!web3}
-                            onClick={() => disable()}
-                        >
-                            Disconnect
-                        </Button>
-                    </div>
-
                     {
-                        web3 && (
+                        isMetaMaskInstalled && (
                             <>
-                                <Divider style={{ margin: '0.6rem 0' }} />
-                                <ContractActions
-                                    web3={web3}
-                                    accounts={accounts}
-                                />
+                                <br />
+
+                                <div>
+                                    Connection Status: {
+                                        !web3 ? (
+                                            <Chip
+                                                label="DISABLED"
+                                                color="default"
+                                                size="small"
+                                            />
+                                        ) : (
+                                            <Chip
+                                                label="ENABLE"
+                                                color="primary"
+                                                size="small"
+                                            />
+                                        )
+                                    }
+                                </div>
+
+                                <br />
+
+                                <div>
+                                    <Button
+                                        variant="contained"
+                                        onClick={() => enable()}
+                                        disabled={Boolean(web3)}
+                                    >
+                                        Connect
+                                    </Button>
+                                    <Button
+                                        style={{ marginLeft: '1rem' }}
+                                        variant="outlined"
+                                        color="warning"
+                                        disabled={!web3}
+                                        onClick={() => disable()}
+                                    >
+                                        Disconnect
+                                    </Button>
+                                </div>
+
+                                {
+                                    chainId === 5 && web3 ? (
+                                        web3 && (
+                                            <>
+                                                <Divider style={{ margin: '0.6rem 0' }} />
+                                                <ContractActions
+                                                    web3={web3}
+                                                    accounts={accounts}
+                                                />
+                                            </>
+                                        )
+                                    ) : chainId !== null
+                                        ? <Typography variant="caption">請使用 Goerli 測試網路</Typography>
+                                        : null
+                                }
                             </>
                         )
                     }

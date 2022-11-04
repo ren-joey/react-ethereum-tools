@@ -24,6 +24,7 @@ const useMetaMask = () => {
     const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState(checkIsMetaMaskInstalled());
     const [web3, setWeb3] = useState<null|Web3>(null);
     const [accounts, setAccounts] = useState([]);
+    const [chainId, setChainId] = useState<null|number>(null);
 
     const enable = () => {
         detectEthereumProvider().then((_provider: any) => {
@@ -32,12 +33,19 @@ const useMetaMask = () => {
             if (provider) {
                 setIsMetaMaskInstalled(true);
                 bindListeners(provider);
-                setWeb3(new Web3(provider as any));
+                const newWeb3 = new Web3(provider as any);
+                setWeb3(newWeb3);
 
                 provider.request({
                     method: 'eth_requestAccounts'
                 }).then((accounts: any) => {
                     setAccounts(accounts);
+                });
+
+                newWeb3.eth.net.getId().then((res) => {
+                    if (typeof res === 'number') {
+                        setChainId(res);
+                    }
                 });
             } else {
                 setIsMetaMaskInstalled(false);
@@ -47,8 +55,9 @@ const useMetaMask = () => {
 
     const disable = () => {
         if (provider) {
-            setAccounts([]);
             setWeb3(null);
+            setAccounts([]);
+            setChainId(null);
             clearListeners(provider);
         }
     };
@@ -67,6 +76,7 @@ const useMetaMask = () => {
         web3,
         enable,
         disable,
+        chainId,
         provider,
         accounts,
         isMetaMaskInstalled

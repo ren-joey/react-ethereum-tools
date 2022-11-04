@@ -7,17 +7,25 @@ interface UseContractParams {
     address: string
 }
 
+const getContract = ({
+    abi,
+    address,
+    web3
+}: UseContractParams) => {
+    const Contract = new web3.eth.Contract(
+        abi,
+        address
+    );
+    Contract.handleRevert = true;
+    return Contract;
+};
+
 const useContract = ({
     abi,
     address,
     web3
 }: Partial<UseContractParams> = {}) => {
-    const Contract = ( abi && address && web3 ) ? new web3.eth.Contract(
-        abi,
-        address
-    ) : undefined;
-
-    const [contract, setContract] = useState(Contract);
+    const Contract = ( abi && address && web3 ) ? getContract({ abi, address, web3 }) : undefined;
 
     const resetContract = ({
         abi,
@@ -25,12 +33,11 @@ const useContract = ({
         web3
     }: UseContractParams) => {
         setContract(
-            new web3.eth.Contract(
-                abi,
-                address
-            )
+            getContract({ abi, address, web3 })
         );
     };
+
+    const [contract, setContract] = useState(Contract);
 
     return {
         contract,

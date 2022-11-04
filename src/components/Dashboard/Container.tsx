@@ -4,6 +4,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { useState } from 'react';
 import Web3 from 'web3';
 import MetaMaskCard from '../Cards/MetaMaskCard';
+import QRCodeRetrieverCard from '../Cards/QRCodeRetrieverCard';
 import QRCodeScannerCard from '../Cards/QRCodeScannerCard';
 import WalletConnectCard from '../Cards/WalletConnectCard';
 
@@ -52,6 +53,12 @@ const Container = () => {
                 <PackedGrid
                     Content={
                         <QRCodeScannerCard />
+                    }
+                />
+
+                <PackedGrid
+                    Content={
+                        <QRCodeRetrieverCard />
                     }
                 />
             </Grid>

@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import useMetaMask from '../functions/useMetaMask';
 import CardTemplate from '../Shared/CardTemplate';
 import ContractActions from './ContractActions';
+import MobileDetect from 'mobile-detect';
 
 const MetaMaskCard = () => {
     const {
@@ -14,6 +15,10 @@ const MetaMaskCard = () => {
         enable,
         disable
     } = useMetaMask();
+
+    const openInMetaMask = () => {
+        window.open('https://metamask.app.link/dapp/rd.bbinpromo.com/product_event/ethereum-tools/');
+    };
 
     return (
         <CardTemplate
@@ -55,6 +60,17 @@ const MetaMaskCard = () => {
                             )
                         }
                     </div>
+
+                    {
+                        (!isMetaMaskInstalled && window.innerWidth < 992) && (
+                            <Button
+                                variant="contained"
+                                onClick={() => openInMetaMask()}
+                            >
+                                Connect
+                            </Button>
+                        )
+                    }
 
                     {
                         isMetaMaskInstalled && (

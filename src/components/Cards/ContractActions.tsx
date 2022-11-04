@@ -11,6 +11,7 @@ import abi from '../../assets/abi/dark_betamon_abi.json';
  * addr: 0x8CEEc3EB66Cc390B6c49a2B7c03a651A82C73af0
  * addr: 0x1bB6C7452AFD29376F6f3436ae7B3F78E7F2bA8e
  * addr: 0x517834bbf06E929c1b22c7603cfb18ee0Bbb45A6
+ * prefix: http://13.114.104.243/api/nft/vbc_dark_betamon/
  */
 
 interface ContractCallParam {
@@ -36,7 +37,7 @@ const ContractActions = ({
         resetContract
     } = useContract({
         abi: darkBetamonAbi,
-        address: '0x1bB6C7452AFD29376F6f3436ae7B3F78E7F2bA8e',
+        address: '0x517834bbf06E929c1b22c7603cfb18ee0Bbb45A6',
         web3
     });
 

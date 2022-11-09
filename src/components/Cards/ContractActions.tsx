@@ -41,22 +41,6 @@ const ContractActions = ({
         web3
     });
 
-    const sign = () => {
-        if (Array.isArray(accounts)
-            && accounts[0]
-            && web3) {
-            sendSignatureRequest({
-                account: accounts[0],
-                message: 'Test',
-                web3
-            }).then((res: any) => {
-                console.log(res);
-            }).catch((err: any) => {
-                console.log(err);
-            });
-        }
-    };
-
     const contractCall = ({
         method,
         param = [],
@@ -159,13 +143,6 @@ const ContractActions = ({
 
     return (
         <div>
-            {/* <Button
-                variant="contained"
-                onClick={() => sign()}
-            >
-                Sign
-            </Button> */}
-
             {
                 contract && (
                     <>

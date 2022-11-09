@@ -4,7 +4,7 @@ import downloadURI from '../../utils/network/downloadURI';
 import CardTemplate from '../Shared/CardTemplate';
 import JSZIP from 'jszip';
 
-const url = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=';
+const url = 'https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=';
 
 interface BlobRequestParam {
     url: string;
@@ -45,7 +45,8 @@ const zipDownloader = (
         jszip.file(blobParamEach.filename, blobParamEach.blob);
     }
     jszip.generateAsync({ type: 'blob' }).then((blob) => {
-
+        const href = URL.createObjectURL(blob);
+        downloadURI(href, '1.zip');
     });
 };
 
@@ -56,12 +57,12 @@ const QRCodeRetrieverCard = () => {
         const blobRequestParam: BlobRequestParam[] = [];
         for (let i = 0; i < dataString.length; i++) {
             blobRequestParam.push({
-                filename: `${i}.json`,
+                filename: `${i + 1}.png`,
                 url: `${url}${dataString[i]}`
             });
         }
         blobDownloader(blobRequestParam).then((res) => {
-            console.log(res);
+            zipDownloader(res);
         });
     };
 

@@ -5,6 +5,11 @@ import useMetaMask from '../functions/useMetaMask';
 import CardTemplate from '../Shared/CardTemplate';
 import ContractActions from './ContractActions';
 import MobileDetect from 'mobile-detect';
+import sendSignatureRequest from '../functions/sendSignatureRequest';
+
+const MarginDivider = styled(Divider)(() => ({
+    margin: '0.6rem 0'
+}));
 
 const MetaMaskCard = () => {
     const {
@@ -18,6 +23,22 @@ const MetaMaskCard = () => {
 
     const openInMetaMask = () => {
         window.open('https://metamask.app.link/dapp/rd.bbinpromo.com/product_event/ethereum-tools/');
+    };
+
+    const sign = () => {
+        if (Array.isArray(accounts)
+            && accounts[0]
+            && web3) {
+            sendSignatureRequest({
+                account: accounts[0],
+                message: 'Test',
+                web3
+            }).then((res: any) => {
+                console.log(res);
+            }).catch((err: any) => {
+                console.log(err);
+            });
+        }
     };
 
     return (
@@ -117,10 +138,24 @@ const MetaMaskCard = () => {
                                 </div>
 
                                 {
+                                    web3 && (
+                                        <div>
+                                            <MarginDivider />
+                                            <Button
+                                                variant="contained"
+                                                onClick={() => sign()}
+                                            >
+                                                Sign
+                                            </Button>
+                                        </div>
+                                    )
+                                }
+
+                                {
                                     chainId === 5 && web3 ? (
                                         web3 && (
                                             <>
-                                                <Divider style={{ margin: '0.6rem 0' }} />
+                                                <MarginDivider />
                                                 <ContractActions
                                                     web3={web3}
                                                     accounts={accounts}

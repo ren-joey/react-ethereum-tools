@@ -11,7 +11,10 @@ import DrawerComponent from './DrawerComponent';
 import { StyledComponent } from '@emotion/styled';
 import { MUIStyledCommonProps } from '@mui/system';
 import dashboardConfig from './dashboard-config';
-import Container from './Container';
+import { createBrowserRouter, createRoutesFromElements, Outlet, Route, RouterProvider } from 'react-router-dom';
+import QRCodeContainer from './QRCodeContainer';
+import Web3Container from './Web3Container';
+import packageJson from '../../../package.json';
 
 export type MUIStyledComponent = StyledComponent<
     MUIStyledCommonProps<Theme>,
@@ -51,7 +54,7 @@ const AppBar = styled(MuiAppBar, {
     })
 }));
 
-const Dashboard = () => {
+const Layout = () => {
     const [open, setOpen] = React.useState(false);
 
     const handleDrawerOpen = () => {
@@ -103,10 +106,36 @@ const Dashboard = () => {
                 sx={{ flexGrow: 1, p: 3 }}
             >
                 <DrawerHeader />
-                <Container />
+                <Outlet />
             </Box>
         </Box>
     );
 };
+
+const router = createBrowserRouter(
+    createRoutesFromElements(
+        <Route element={<Layout />}>
+            <Route
+                path="/"
+                element={<QRCodeContainer />}
+            />
+            <Route
+                path="/qrcode"
+                element={<QRCodeContainer />}
+            />
+            <Route
+                path="/web3"
+                element={<Web3Container />}
+            />
+        </Route>
+    ),
+    {
+        basename: packageJson.homepage
+    }
+);
+
+const Dashboard = () => (
+    <RouterProvider router={router} />
+);
 
 export default Dashboard;

@@ -12,6 +12,7 @@ import dashboardConfig from './dashboard-config';
 import AppsIcon from '@mui/icons-material/Apps';
 import { MUIStyledComponent } from './Dashboard';
 import { IconButton } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const { drawerWidth } = dashboardConfig;
 
@@ -80,30 +81,60 @@ const DrawerComponent = ({
                     disablePadding
                     sx={{ display: 'block' }}
                 >
-                    <ListItemButton
-                        sx={{
-                            minHeight: 48,
-                            justifyContent: open ? 'initial' : 'center',
-                            px: 2.5
-                        }}
-                    >
-                        <ListItemIcon
+                    <Link to={'/qrcode'}>
+                        <ListItemButton
                             sx={{
-                                minWidth: 0,
-                                mr: open ? 3 : 'auto',
-                                justifyContent: 'center'
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5
                             }}
                         >
-                            <AppsIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                            primary="Dashboard"
-                            sx={{ opacity: open ? 1 : 0 }}
-                        />
-                    </ListItemButton>
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                <AppsIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary="QRCode 操作"
+                                sx={{ opacity: open ? 1 : 0 }}
+                            />
+                        </ListItemButton>
+                    </Link>
                 </ListItem>
+                <ListItem
+                    disablePadding
+                    sx={{ display: 'block' }}
+                >
+                    <Link to={'/web3'}>
+                        <ListItemButton
+                            sx={{
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5
+                            }}
+                        >
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                <AppsIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary="合約操作"
+                                sx={{ opacity: open ? 1 : 0 }}
+                            />
+                        </ListItemButton>
+                    </Link>
+                </ListItem>
+                <Divider />
             </List>
-            <Divider />
         </Drawer>
     );
 };

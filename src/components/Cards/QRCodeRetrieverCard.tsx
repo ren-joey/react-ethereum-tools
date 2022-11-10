@@ -6,17 +6,17 @@ import JSZIP from 'jszip';
 
 const url = 'https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=';
 
-interface BlobRequestParam {
+export interface BlobRequestParam {
     url: string;
     filename: string;
 }
 
-interface BlobParam {
+export interface BlobParam {
     filename: string;
     blob: Blob
 }
 
-const blobDownloader = (
+export const blobDownloader = (
     blobRequestParam: BlobRequestParam[]
 ) => new Promise<BlobParam[]>((resolve) => {
     const promises: Promise<BlobParam>[] = [];
@@ -35,7 +35,7 @@ const blobDownloader = (
     Promise.all(promises).then((res) => resolve(res));
 });
 
-const zipDownloader = (
+export const zipDownloader = (
     blobParam: BlobParam[]
 ) => {
     const jszip = new JSZIP();

@@ -1,19 +1,7 @@
 import { Grid } from '@mui/material';
 import QRCodeGeneratorCard from '../Cards/QRCodeGeneratorCard';
 import QRCodeScannerCard from '../Cards/QRCodeScannerCard';
-
-const PackedGrid = (
-    { Content }: { Content: JSX.Element }
-) => (
-    <Grid
-        xs={12}
-        sm={6}
-        md={4}
-        style={{ padding: '0.5rem' }}
-    >
-        { Content }
-    </Grid>
-);
+import RwdGrid from '../Shared/PaddingGrid';
 
 const QRCodeContainer = () => {
     return (
@@ -21,19 +9,19 @@ const QRCodeContainer = () => {
             container
             spacing={2}
         >
-            <PackedGrid
+            <RwdGrid
                 Content={
                     <QRCodeGeneratorCard />
                 }
             />
 
-            <PackedGrid
+            <RwdGrid
                 Content={
                     <QRCodeScannerCard />
                 }
             />
 
-            {/* <PackedGrid
+            {/* <RwdGrid
                 Content={
                     <QRCodeRetrieverCard />
                 }

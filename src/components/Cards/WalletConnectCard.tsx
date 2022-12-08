@@ -1,11 +1,16 @@
 import { Button, Chip, Divider, Typography } from '@mui/material';
-import { useEffect } from 'react';
+import { UsingWeb3Param } from '../Dashboard/Web3Container';
 import sendSignatureRequest from '../functions/sendSignatureRequest';
 import useWalletconnect from '../functions/useWalletConnection';
 import CardTemplate from '../Shared/CardTemplate';
-import ContractActions from './ContractActions';
+import MarginDivider from '../Shared/MarginDivider';
+import ContractActions from './ContractCard';
 
-const WalletConnectCard = () => {
+const WalletConnectCard = ({
+    setUsingWeb3
+}: {
+    setUsingWeb3: (obj: UsingWeb3Param) => void
+}) => {
     const {
         web3,
         enable,
@@ -28,6 +33,15 @@ const WalletConnectCard = () => {
                 console.log(err);
             });
         }
+    };
+
+    const disconnect = () => {
+        disable();
+        setUsingWeb3({
+            web3: null,
+            chainId: null,
+            account: null
+        });
     };
 
     return (
@@ -93,17 +107,30 @@ const WalletConnectCard = () => {
                     </div>
 
                     {
-                        chainId === 5 && web3 ? (
-                            web3 && (
-                                <>
-                                    <Divider style={{ margin: '0.6rem 0' }} />
-                                    <ContractActions
-                                        web3={web3}
-                                        accounts={accounts}
-                                    />
-                                </>
-                            )
-                        ) : chainId !== null
+                        web3 && (
+                            <div>
+                                <MarginDivider />
+                                <Button
+                                    variant="contained"
+                                    onClick={() => sign()}
+                                >
+                                    Sign
+                                </Button>
+                                <Button
+                                    style={{ marginLeft: '1rem' }}
+                                    variant="contained"
+                                    onClick={() => setUsingWeb3({
+                                        web3, account: accounts[0], chainId
+                                    })}
+                                >
+                                    Use This Web3
+                                </Button>
+                            </div>
+                        )
+                    }
+
+                    {
+                        chainId !== 5 && web3
                             ? <Typography variant="caption">請使用 Goerli 測試網路</Typography>
                             : null
                     }

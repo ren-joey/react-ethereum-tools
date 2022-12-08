@@ -1,5 +1,5 @@
 import WalletConnectProvider from '@walletconnect/web3-provider';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Web3 from 'web3';
 
 window.localStorage.removeItem('walletconnect');
@@ -8,30 +8,30 @@ const walletConnectOptions = {
     infuraId: '34bc680607254406bd06c0a5441eaf97'
 };
 
-let provider: (WalletConnectProvider|null) = null;
-
 const useWalletconnect = () => {
-    const [web3, setWeb3] = useState<null|Web3>(null);
+    const [provider, setProvider] = useState<WalletConnectProvider|null>(null);
     const [accounts, setAccounts] = useState<any[]>([]);
     const [chainId, setChainId] = useState<null|number>(null);
+    const [web3, setWeb3] = useState<Web3|null>(null);
 
     const enable = () => {
-        provider = new WalletConnectProvider(walletConnectOptions);
+        const provider = new WalletConnectProvider(walletConnectOptions);
 
         if (provider) {
             provider.enable().then(() => {
                 if (provider) {
-                    const newWeb3 = new Web3(provider as any);
-                    setWeb3(newWeb3);
-
-                    newWeb3.eth.getAccounts().then((accounts) => {
+                    provider.request({
+                        method: 'eth_requestAccounts'
+                    }).then((accounts: any) => {
                         setAccounts(accounts);
-                    });
+                        bindListeners(provider);
+                        setProvider(provider);
 
-                    newWeb3.eth.net.getId().then((res) => {
-                        if (typeof res === 'number') {
-                            setChainId(res);
-                        }
+                        provider.request({
+                            method: 'eth_chainId'
+                        }).then((chainId: string) => {
+                            setChainId(Number(chainId));
+                        });
                     });
 
                     bindListeners(provider);
@@ -42,36 +42,33 @@ const useWalletconnect = () => {
 
     const disable = () => {
         if (provider) {
-            provider.disconnect().then(() => {
-                window.localStorage.removeItem('walletconnect');
-                setWeb3(null);
-                setAccounts([]);
-                setChainId(null);
-                if (provider) {
-                    clearListeners(provider);
-                    provider = null;
-                }
-            }).catch(() => {});
+            provider.disconnect();
         }
+        window.localStorage.removeItem('walletconnect');
+        setAccounts([]);
+        setChainId(null);
+        setWeb3(null);
+        setChainId(null);
     };
 
-    const bindListeners = (provider: WalletConnectProvider) => {
+    const bindListeners = (provider: any) => {
         provider.on('chainChanged', disable);
         provider.on('accountsChanged', disable);
     };
 
-    const clearListeners = (provider: WalletConnectProvider) => {
-        provider.off('chainChanged', disable);
-        provider.off('accountsChanged', disable);
-    };
+    useEffect(() => {
+        if (provider !== null) {
+            setWeb3(new Web3(provider as any));
+        }
+    }, [ provider ]);
 
     return {
-        web3,
         enable,
         disable,
         provider,
         accounts,
-        chainId
+        chainId,
+        web3
     };
 };
 

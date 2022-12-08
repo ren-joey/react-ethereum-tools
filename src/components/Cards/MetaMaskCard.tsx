@@ -1,17 +1,17 @@
 import styled from '@emotion/styled';
 import { Button, Chip, Divider, Typography } from '@mui/material';
-import { useEffect } from 'react';
 import useMetaMask from '../functions/useMetaMask';
 import CardTemplate from '../Shared/CardTemplate';
-import ContractActions from './ContractActions';
-import MobileDetect from 'mobile-detect';
+import ContractActions from './ContractCard';
 import sendSignatureRequest from '../functions/sendSignatureRequest';
+import { UsingWeb3Param } from '../Dashboard/Web3Container';
+import MarginDivider from '../Shared/MarginDivider';
 
-const MarginDivider = styled(Divider)(() => ({
-    margin: '0.6rem 0'
-}));
-
-const MetaMaskCard = () => {
+const MetaMaskCard = ({
+    setUsingWeb3
+}: {
+    setUsingWeb3: (obj: UsingWeb3Param) => void
+}) => {
     const {
         isMetaMaskInstalled,
         web3,
@@ -39,6 +39,15 @@ const MetaMaskCard = () => {
                 console.log(err);
             });
         }
+    };
+
+    const disconnect = () => {
+        disable();
+        setUsingWeb3({
+            web3: null,
+            chainId: null,
+            account: null
+        });
     };
 
     return (
@@ -131,7 +140,7 @@ const MetaMaskCard = () => {
                                         variant="outlined"
                                         color="warning"
                                         disabled={!web3}
-                                        onClick={() => disable()}
+                                        onClick={() => disconnect()}
                                     >
                                         Disconnect
                                     </Button>
@@ -147,22 +156,21 @@ const MetaMaskCard = () => {
                                             >
                                                 Sign
                                             </Button>
+                                            <Button
+                                                style={{ marginLeft: '1rem' }}
+                                                variant="contained"
+                                                onClick={() => setUsingWeb3({
+                                                    web3, account: accounts[0], chainId
+                                                })}
+                                            >
+                                                Use This Web3
+                                            </Button>
                                         </div>
                                     )
                                 }
 
                                 {
-                                    chainId === 5 && web3 ? (
-                                        web3 && (
-                                            <>
-                                                <MarginDivider />
-                                                <ContractActions
-                                                    web3={web3}
-                                                    accounts={accounts}
-                                                />
-                                            </>
-                                        )
-                                    ) : chainId !== null
+                                    chainId !== 5 && web3
                                         ? <Typography variant="caption">請使用 Goerli 測試網路</Typography>
                                         : null
                                 }

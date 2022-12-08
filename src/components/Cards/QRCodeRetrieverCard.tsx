@@ -1,5 +1,5 @@
 import { Button, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import downloadURI from '../../utils/network/downloadURI';
 import CardTemplate from '../Shared/CardTemplate';
 import JSZIP from 'jszip';

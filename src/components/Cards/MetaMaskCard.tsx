@@ -1,8 +1,6 @@
-import styled from '@emotion/styled';
-import { Button, Chip, Divider, Typography } from '@mui/material';
+import { Button, Chip, Typography } from '@mui/material';
 import useMetaMask from '../functions/useMetaMask';
 import CardTemplate from '../Shared/CardTemplate';
-import ContractActions from './ContractCard';
 import sendSignatureRequest from '../functions/sendSignatureRequest';
 import { UsingWeb3Param } from '../Dashboard/Web3Container';
 import MarginDivider from '../Shared/MarginDivider';

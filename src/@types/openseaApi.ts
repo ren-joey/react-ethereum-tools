@@ -3,7 +3,7 @@
  * https://docs.opensea.io/reference/retrieving-a-single-asset
  */
 
-import { Nullable, NullableBasicType, NullableString } from "./basicVariable";
+import { Nullable, NullableBasicType, NullableString } from './basicVariable';
 
 export type OpenSeaApiName = 'retrieve_events' | 'retrieve_an_asset';
 

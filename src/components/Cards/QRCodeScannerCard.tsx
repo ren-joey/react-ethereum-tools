@@ -1,6 +1,5 @@
-import { Button, TextField, Typography } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
-import { QrReader } from 'react-qr-reader';
+import { Button, TextField } from '@mui/material';
+import { useState } from 'react';
 import QRCodeReader from '../QRCodeReader/QRCodeReader';
 import CardTemplate from '../Shared/CardTemplate';
 

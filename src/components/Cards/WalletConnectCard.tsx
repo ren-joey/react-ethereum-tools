@@ -1,10 +1,9 @@
-import { Button, Chip, Divider, Typography } from '@mui/material';
+import { Button, Chip, Typography } from '@mui/material';
 import { UsingWeb3Param } from '../Dashboard/Web3Container';
 import sendSignatureRequest from '../functions/sendSignatureRequest';
 import useWalletconnect from '../functions/useWalletConnection';
 import CardTemplate from '../Shared/CardTemplate';
 import MarginDivider from '../Shared/MarginDivider';
-import ContractActions from './ContractCard';
 
 const WalletConnectCard = ({
     setUsingWeb3
@@ -100,7 +99,7 @@ const WalletConnectCard = ({
                             variant="outlined"
                             color="warning"
                             disabled={!web3}
-                            onClick={() => disable()}
+                            onClick={() => disconnect()}
                         >
                             Disconnect
                         </Button>

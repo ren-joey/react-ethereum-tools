@@ -17,6 +17,7 @@
         "ethers": "^5.7.2",
         "https-browserify": "^1.0.0",
         "jszip": "^3.10.1",
+        "laravel-frontend-file-mover": "0.0.4",
         "mobile-detect": "^1.4.5",
         "os-browserify": "^0.3.0",
         "react": "^18.2.0",
@@ -33,10 +34,16 @@
     },
     "scripts": {
         "start": "react-app-rewired start",
-        "build": "react-app-rewired build",
+        "start:legacy": "react-scripts start",
+        "build": "npm run lint:and-mode && react-app-rewired build",
+        "build:legacy": "react-scripts build",
         "build:dev": "DISABLE_ESLINT_PLUGIN=true react-app-rewired build",
         "test": "react-app-rewired test",
-        "eject": "react-app-rewired eject"
+        "lint": "code-checker & tsc --noEmit & NODE_ENV=production eslint ./src",
+        "lint:and-mode": "code-checker && tsc --noEmit && NODE_ENV=production eslint ./src",
+        "eject": "react-app-rewired eject",
+        "build:server": "npm run build && move-frontend-app",
+        "build:dev-server": "npm run build:dev && move-frontend-app"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -61,6 +68,7 @@
         "@types/node": "^12.20.55",
         "@types/react": "^17.0.47",
         "@types/react-dom": "^17.0.17",
+        "code-checker-j": "0.0.9",
         "node-sass": "^6.0.1",
         "react-app-rewired": "^2.2.1",
         "stylelint": "^14.9.1",

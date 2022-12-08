@@ -1,6 +1,5 @@
 import { Button, Chip, TextField } from '@mui/material';
 import { AxiosResponse } from 'axios';
-import { stat } from 'fs';
 import { useReducer } from 'react';
 import { useState } from 'react';
 import { OpenSeaAsset } from 'src/@types/openseaApi';

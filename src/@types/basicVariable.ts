@@ -1,4 +1,4 @@
-import { BigNumber } from "ethers";
+import { BigNumber } from 'ethers';
 
 export type NullableBasicType = (null|string|number);
 export type NullableString = (null|string);
